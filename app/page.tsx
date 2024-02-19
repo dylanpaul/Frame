@@ -43,7 +43,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>https://ipfs.io/ipfs/QmV3yaPUv61zheFg25nDWzA7vuhxyo4QsArwsBbykAqSBy</h1>
+      <h1>Gold Star NFT</h1>
+      <img src="https://ipfs.io/ipfs/QmV3yaPUv61zheFg25nDWzA7vuhxyo4QsArwsBbykAqSBy" alt="IPFS Image" />    
     </>
   );
 }
