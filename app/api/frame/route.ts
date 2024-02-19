@@ -72,8 +72,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         args: [accountAddress],
       });
       await nftOwnerClient.writeContract(request);
+      minted = true;
     } catch (err) {
       console.error(err);
+      minted = false;
     }
     if (minted) {
       return new NextResponse(
