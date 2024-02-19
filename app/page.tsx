@@ -5,17 +5,17 @@ import { NEXT_PUBLIC_URL } from './config';
 const frameMetadata = getFrameMetadata({
   buttons: [
     {
-      label: 'Story time!',
+      label: 'Mint NFT!',
     },
-    {
-      action: 'link',
-      label: 'Link to Google',
-      target: 'https://www.google.com',
-    },
-    {
-      label: 'Redirect to pictures',
-      action: 'post_redirect',
-    },
+    // {
+    //   action: 'link',
+    //   label: 'Link to Google',
+    //   target: 'https://www.google.com',
+    // },
+    // {
+    //   label: 'Redirect to pictures',
+    //   action: 'post_redirect',
+    // },
   ],
   image: {
     src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>My Frame</h1>
+      <h1>https://ipfs.io/ipfs/QmV3yaPUv61zheFg25nDWzA7vuhxyo4QsArwsBbykAqSBy</h1>
     </>
   );
 }
