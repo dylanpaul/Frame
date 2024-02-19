@@ -9,9 +9,6 @@ require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
-console.log(WALLET_PRIVATE_KEY)
-console.log(PROVIDER_URL)
-console.log(NFT_CONTRACT_ADDRESS)
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
