@@ -7,22 +7,10 @@ const frameMetadata = getFrameMetadata({
     {
       label: 'Mint NFT!',
     },
-    // {
-    //   action: 'link',
-    //   label: 'Link to Google',
-    //   target: 'https://www.google.com',
-    // },
-    // {
-    //   label: 'Redirect to pictures',
-    //   action: 'post_redirect',
-    // },
   ],
   image: {
     src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
     aspectRatio: '1:1',
-  },
-  input: {
-    text: 'Tell me a boat story',
   },
   postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
 });
