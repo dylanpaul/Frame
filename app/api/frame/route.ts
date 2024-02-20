@@ -21,7 +21,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   // console.log(accountAddress) address is custody address connected to Farcaster
-
+  //working
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
