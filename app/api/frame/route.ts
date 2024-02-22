@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
 import NFT from '../../../constants/NFT.json';
 import { privateKeyToAccount } from 'viem/accounts';
-import { baseSepolia } from 'viem/chains';
+import { sepolia } from 'viem/chains';
 // import { MetaMaskInpageProvider } from "@metamask/providers";
 import { createWalletClient, http, createPublicClient } from 'viem';
 require('dotenv').config();
@@ -92,12 +92,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
-    chain: baseSepolia,
+    chain: sepolia,
     transport: http(PROVIDER_URL as string),
   });
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: sepolia,
     transport: http(PROVIDER_URL as string),
   });
 
