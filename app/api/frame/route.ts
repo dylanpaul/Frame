@@ -98,20 +98,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
-  const fontPath = require.resolve('@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt');
-  async function overlayTextOnImage() {
-    try {
-      const image = await Jimp.read(imagePath);
-      const font = await Jimp.loadFont(fontPath);
-      image.print(font, 10, 10, overlayText);
-      await image.writeAsync(outputPath);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  overlayTextOnImage();
+  // const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
+  // const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
+  // const fontPath = require.resolve('@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt');
+  // async function overlayTextOnImage() {
+  //   try {
+  //     const image = await Jimp.read(imagePath);
+  //     const font = await Jimp.loadFont(fontPath);
+  //     image.print(font, 10, 10, overlayText);
+  //     await image.writeAsync(outputPath);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+  // overlayTextOnImage();
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({

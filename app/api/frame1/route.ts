@@ -1,17 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
-import NFT from '../../../constants/NFT.json';
-import { privateKeyToAccount } from 'viem/accounts';
-import { sepolia } from 'viem/chains';
-// import { MetaMaskInpageProvider } from "@metamask/providers";
-import { createWalletClient, http, createPublicClient } from 'viem';
-import {verifyCredentialJWT} from '@jpmorganchase/onyx-ssi-sdk'
 require('dotenv').config();
-const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
-const PROVIDER_URL = process.env.PROVIDER_URL;
-const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
-
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
 
