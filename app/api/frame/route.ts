@@ -75,6 +75,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         state = credential.vc.credentialSubject.state;
         country = credential.vc.credentialSubject.country;
         zip = credential.vc.credentialSubject.zip;
+        console.log(name)
+        console.log(zip)
       }
     } catch (error) {
       console.log(error);
