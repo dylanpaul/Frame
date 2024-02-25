@@ -27,11 +27,7 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const { createCanvas, loadImage, registerFont } = require('canvas');
-const fs = require('fs');
-// const imagePath = '../../../public/Receipt.jpeg';
-const canvas = createCanvas(800, 600); // Adjust dimensions as needed
-const ctx = canvas.getContext('2d');
+const gm = require('gm');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -100,30 +96,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
- // Load the image
-loadImage('../../../public/Receipt.jpg').then((image: any) => {
-  // Draw the image on the canvas
-  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-  // Set text properties
-  ctx.font = '18px sans-serif'; // Replace with your font family
-  ctx.fillStyle = 'black'; // Text color
-  ctx.textAlign = 'center'; // Text alignment
-  ctx.textBaseline = 'middle'; // Vertical alignment
-
-  // Overlay text
-  const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-
-  // Save the resulting image
   const outputPath = '../../../public/image_with_text.jpeg';
-  const stream = fs.createWriteStream(outputPath);
-  const out = canvas.createJPEGStream();
-  out.pipe(stream);
-  stream.on('finish', () => {
-    console.log('Image with text saved:', outputPath);
+  const imagePath = '../../../public/Receipt.jpeg'
+
+  const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
+  gm(imagePath)
+  .font('Arial', 12) // Replace 'Arial' with your desired font family
+  .fill('white') // Text color  .drawText(10, 10, text)      // Draw text on the image
+  .write(outputPath, (err: any) => {
+    if (err) {
+      console.log('nope went wrong');
+    } else {
+      console.log('Text added to image successfully');
+    }
   });
-});
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
