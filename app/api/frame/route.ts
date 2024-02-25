@@ -27,8 +27,11 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-// const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`;
+const { createCanvas, loadImage, registerFont } = require('canvas');
+const fs = require('fs');
 // const imagePath = '../../../public/Receipt.jpeg';
+const canvas = createCanvas(800, 600); // Adjust dimensions as needed
+const ctx = canvas.getContext('2d');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -97,20 +100,30 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  // const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
-  // const fontPath = require.resolve('@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt');
-  // async function overlayTextOnImage() {
-  //   try {
-  //     const image = await Jimp.read(imagePath);
-  //     const font = await Jimp.loadFont(fontPath);
-  //     image.print(font, 10, 10, overlayText);
-  //     await image.writeAsync(outputPath);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  // overlayTextOnImage();
+ // Load the image
+loadImage('../../../public/Receipt.jpg').then((image: any) => {
+  // Draw the image on the canvas
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  // Set text properties
+  ctx.font = '18px sans-serif'; // Replace with your font family
+  ctx.fillStyle = 'black'; // Text color
+  ctx.textAlign = 'center'; // Text alignment
+  ctx.textBaseline = 'middle'; // Vertical alignment
+
+  // Overlay text
+  const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  // Save the resulting image
+  const outputPath = '../../../public/image_with_text.jpeg';
+  const stream = fs.createWriteStream(outputPath);
+  const out = canvas.createJPEGStream();
+  out.pipe(stream);
+  stream.on('finish', () => {
+    console.log('Image with text saved:', outputPath);
+  });
+});
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
