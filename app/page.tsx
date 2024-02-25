@@ -12,7 +12,7 @@ const frameMetadata = getFrameMetadata({
     src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
     aspectRatio: '1:1',
   },
-  postUrl: `${NEXT_PUBLIC_URL}/api/frame/route`,
+  postUrl: `${NEXT_PUBLIC_URL}/api/frame1`,
 });
 
 export const metadata: Metadata = {
