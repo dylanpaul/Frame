@@ -27,7 +27,7 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const Jimp = require('jimp');
+import Jimp from "jimp";
 const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`;
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -102,7 +102,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   async function overlayTextOnImage() {
     try {
       const image = await Jimp.read(imagePath);
-      const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+      const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
       image.print(font, 10, 10, overlayText);
       await image.writeAsync(outputPath);
     } catch (error) {
