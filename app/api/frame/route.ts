@@ -28,7 +28,7 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const sharp = require('sharp');
+const Jimp = require('jimp');
 const imagePath = '../../../public/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -100,15 +100,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
   const outputPath = '../../../public/textreceipt.jpeg';
-  sharp(imagePath)
-  .resize(800, 600) // Resize the image if needed
-  .overlayWith(Buffer.from(`<svg><text x="10" y="50" font-size="24" font-weight="bold" fill="white">${overlayText}</text></svg>`), { raw: true })
-  .toFile(outputPath, (err: any) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('Image with text overlay saved to', outputPath);
-    }
+  Jimp.read(imagePath)
+  .then((image: { print: (arg0: any, arg1: number, arg2: number, arg3: string) => void; }) => {
+    // Load font and print text
+    return Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then((font: any) => {
+      image.print(font, 10, 10, overlayText);
+      return image;
+    });
+  })
+  .then((image: { writeAsync: (arg0: string) => any; }) => {
+    // Save the resulting image
+    return image.writeAsync(outputPath);
+  })
+  .catch((error: any) => {
+    console.error(error);
   });
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
