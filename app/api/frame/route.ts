@@ -28,7 +28,7 @@ const ethrProvider = {
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
 const Jimp = require('jimp');
-const imagePath = '/public/Receipt.jpeg';
+const imagePath = '/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
