@@ -16,7 +16,6 @@ import {
   verifyDIDs,
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
-import { JwtCredentialPayload } from 'did-jwt-vc';
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
@@ -29,7 +28,7 @@ const ethrProvider = {
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
 const Jimp = require('jimp');
-const imagePath = '../../../public/Receipt.jpeg';
+const imagePath = '/public/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -99,7 +98,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  const outputPath = '../../../public/textreceipt.jpeg';
+  const outputPath = '/public/textreceipt.jpeg';
   Jimp.read(imagePath)
   .then((image: { print: (arg0: any, arg1: number, arg2: number, arg3: string) => void; }) => {
     // Load font and print text
