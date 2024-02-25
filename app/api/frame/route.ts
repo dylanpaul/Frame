@@ -100,7 +100,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
   const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
-  const fontPath = 'node_modules/@jimp/plugin-print/index.d.ts';
+  const fontPath = 'node_modules/@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt';
   async function overlayTextOnImage() {
     try {
       const image = await Jimp.read(imagePath);
