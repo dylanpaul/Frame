@@ -98,22 +98,18 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  const outputPath = '/public/textreceipt.jpeg';
-  Jimp.read(imagePath)
-  .then((image: { print: (arg0: any, arg1: number, arg2: number, arg3: string) => void; }) => {
-    // Load font and print text
-    return Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then((font: any) => {
+  const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
+  async function overlayTextOnImage() {
+    try {
+      const image = await Jimp.read(imagePath);
+      const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
       image.print(font, 10, 10, overlayText);
-      return image;
-    });
-  })
-  .then((image: { writeAsync: (arg0: string) => any; }) => {
-    // Save the resulting image
-    return image.writeAsync(outputPath);
-  })
-  .catch((error: any) => {
-    console.error(error);
-  });
+      await image.writeAsync(outputPath);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  overlayTextOnImage();
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
