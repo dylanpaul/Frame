@@ -6,59 +6,17 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
 // import { MetaMaskInpageProvider } from "@metamask/providers";
 import { createWalletClient, http, createPublicClient } from 'viem';
+import {verifyCredentialJWT} from '@jpmorganchase/onyx-ssi-sdk'
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
-// const ITEM_PRICE_IN_WEI = 10 * 1e18; // Assuming the price is $10
-
-// declare global {
-//   interface Window{
-//     ethereum?:MetaMaskInpageProvider
-//   }
-// }
-
-// async function checkMetaMaskConnection(targetAccount: string): Promise<boolean> {
-//   if (window.ethereum && window.ethereum.isMetaMask) {
-//     try {
-//       // Requesting accounts to check if the user is connected
-//       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-//       if (Array.isArray(accounts)  && accounts.length > 0) {
-//         // Check if the connected account matches the target account
-//         return accounts[0].toLowerCase() === targetAccount.toLowerCase();
-//       } else {
-//         return false;
-//       }
-//     } catch (error) {
-//       console.error('Error connecting to MetaMask:', error);
-//       return false;
-//     }
-//   } else {
-//     console.log('MetaMask not installed');
-//     return false;
-//   }
-// }
-
-// async function makePaymentRequest(buyerAddress: string, sellerAddress: string, itemPriceInWei: number) {
-//   try {
-//     // Start wallet payment process
-//     const response = await window.ethereum!.request({
-//       method: 'eth_sendTransaction',
-//       params: [{ from: buyerAddress, to: sellerAddress, value: itemPriceInWei }],
-//     });
-//     console.log(response);
-//     return true;
-//   } catch (error) {
-//     console.error(error);
-//     return false;
-//   }
-// }
 
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   let accountAddress: string | undefined = '';
+  let text: string | undefined = '';
 
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
@@ -66,28 +24,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
     accountAddress = message.interactor.verified_accounts[0];
   }
-
-  // Check if MetaMask is connected
-  // const isConnected = await checkMetaMaskConnection(accountAddress);
-
-  // if (!isConnected) {
-    // Prompt the user to connect MetaMask
-  //   return new NextResponse(
-  //     getFrameHtmlResponse({
-  //       buttons: [
-  //         {
-  //           label: `Connect to specified custody address: Buy again!`,
-  //         },
-  //       ],
-  //       image: {
-  //         src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
-  //       },
-  //       post_url: `${NEXT_PUBLIC_URL}/api/frame`,
-  //     }),
-  //   );
-  // }
-
-  // console.log(accountAddress) address is custody address connected to Farcaster
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
