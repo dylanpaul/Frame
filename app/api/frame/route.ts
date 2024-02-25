@@ -6,6 +6,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
 // import { MetaMaskInpageProvider } from "@metamask/providers";
 import { createWalletClient, http, createPublicClient } from 'viem';
+import { decodeJWT } from 'did-jwt';
 import {
   EthrDIDMethod,
   JWTService,
@@ -15,6 +16,7 @@ import {
   verifyDIDs,
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
+import { JwtCredentialPayload } from 'did-jwt-vc';
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
@@ -29,8 +31,14 @@ const didEthr = new EthrDIDMethod(ethrProvider);
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
-  let vp: string = '';
+  //let vp: string = '';
   let isVpJwtValid = false;
+  let name: string = '';
+  let address: string = '';
+  let city: string = '';
+  let state: string = '';
+  let country: string = '';
+  let zip: string = '';
 
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
@@ -39,16 +47,17 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     accountAddress = message.interactor.verified_accounts[0];
   }
 
-  if (message?.input) {
-    vp = message.input;
-  }
+  // if (message?.input) {
+  //   vp = message.input;
+  // }
   const didResolver = getSupportedResolvers([didKey, didEthr]);
 
-  // const vp = 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKaGJHY2lPaUpGVXpJMU5rc2lMQ0owZVhBaU9pSktWMVFpZlEuZXlKbGVIQWlPakUzTkRBMU1UTXlOamtzSW5aaklqcDdJa0JqYjI1MFpYaDBJanBiSW1oMGRIQnpPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1ERTRMMk55WldSbGJuUnBZV3h6TDNZeElsMHNJblI1Y0dVaU9sc2lWbVZ5YVdacFlXSnNaVU55WldSbGJuUnBZV3dpTENKUVVrOVBSbDlQUmw5QlJFUlNSVk5USWwwc0ltTnlaV1JsYm5ScFlXeFRkV0pxWldOMElqcDdJbTVoYldVaU9pSkVlV3hoYmlCUVlYVnNJaXdpWVdSa2NtVnpjeUk2SWpFeU16UWdUVzlqYTJsdVoySnBjbVFnVEdGdVpTSXNJbU5wZEhraU9pSkJibmwwYjNkdUlpd2ljM1JoZEdVaU9pSkJibmx6ZEdGMFpTSXNJbU52ZFc1MGNua2lPaUpWVXlJc0lucHBjQ0k2SWpBeE1qTTBJbjE5TENKemRXSWlPaUprYVdRNlpYUm9janB6WlhCdmJHbGhPakI0T0RZeFFXVmhOREJqT1VGalF6WXlORE0xWTBWaE16RmlNakEzT0VaR00yVXdNakpFTmpZeU55SXNJbXAwYVNJNkltUnBaRHBsZEdoeU9uTmxjRzlzYVdFNk1IaEdZMFZDT1RrM00yWXpPVFkxWXpWaFpUbGxOakEyWlRZMFl6ZzBaRFJpTmpjek9FVXhaV1F6SWl3aWJtSm1Jam94TnpBNE9Ea3dPRFk1TENKcGMzTWlPaUprYVdRNlpYUm9janB6WlhCdmJHbGhPakI0UlVVd05rSkdPVFl6WWpJMk5ESTFOa1UwTkVZNU1ESmhNakF3T1RVeFltRkdOelEyWVRWRU55SjkuNWVYWU5wS0VXMDRWWWN0SFRxVlZnSzNORFNKN0ZacjlHcTFjV1pQNlpwS0RTNEZzWkxkUXpVWDRaUHh5UF90VFJQRjUySmd2QWFCNWJqOHVka25vU2ciXX0sImlzcyI6ImRpZDpldGhyOnNlcG9saWE6MHg4NjFBZWE0MGM5QWNDNjI0MzVjRWEzMWIyMDc4RkYzZTAyMkQ2NjI3In0.bj29mlM8RO_Pjsx-q3PjGYhcclN0yOThbpRRpKeUVE0E5qn1V47U8s0KgxrkcE2QQH1iX0HxqG01waliCMhFSg'
-  try{
+  const vp =
+    'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2cCI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVQcmVzZW50YXRpb24iXSwidmVyaWZpYWJsZUNyZWRlbnRpYWwiOlsiZXlKaGJHY2lPaUpGVXpJMU5rc2lMQ0owZVhBaU9pSktWMVFpZlEuZXlKbGVIQWlPakUzTkRBMU1UTXlOamtzSW5aaklqcDdJa0JqYjI1MFpYaDBJanBiSW1oMGRIQnpPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1ERTRMMk55WldSbGJuUnBZV3h6TDNZeElsMHNJblI1Y0dVaU9sc2lWbVZ5YVdacFlXSnNaVU55WldSbGJuUnBZV3dpTENKUVVrOVBSbDlQUmw5QlJFUlNSVk5USWwwc0ltTnlaV1JsYm5ScFlXeFRkV0pxWldOMElqcDdJbTVoYldVaU9pSkVlV3hoYmlCUVlYVnNJaXdpWVdSa2NtVnpjeUk2SWpFeU16UWdUVzlqYTJsdVoySnBjbVFnVEdGdVpTSXNJbU5wZEhraU9pSkJibmwwYjNkdUlpd2ljM1JoZEdVaU9pSkJibmx6ZEdGMFpTSXNJbU52ZFc1MGNua2lPaUpWVXlJc0lucHBjQ0k2SWpBeE1qTTBJbjE5TENKemRXSWlPaUprYVdRNlpYUm9janB6WlhCdmJHbGhPakI0T0RZeFFXVmhOREJqT1VGalF6WXlORE0xWTBWaE16RmlNakEzT0VaR00yVXdNakpFTmpZeU55SXNJbXAwYVNJNkltUnBaRHBsZEdoeU9uTmxjRzlzYVdFNk1IaEdZMFZDT1RrM00yWXpPVFkxWXpWaFpUbGxOakEyWlRZMFl6ZzBaRFJpTmpjek9FVXhaV1F6SWl3aWJtSm1Jam94TnpBNE9Ea3dPRFk1TENKcGMzTWlPaUprYVdRNlpYUm9janB6WlhCdmJHbGhPakI0UlVVd05rSkdPVFl6WWpJMk5ESTFOa1UwTkVZNU1ESmhNakF3T1RVeFltRkdOelEyWVRWRU55SjkuNWVYWU5wS0VXMDRWWWN0SFRxVlZnSzNORFNKN0ZacjlHcTFjV1pQNlpwS0RTNEZzWkxkUXpVWDRaUHh5UF90VFJQRjUySmd2QWFCNWJqOHVka25vU2ciXX0sImlzcyI6ImRpZDpldGhyOnNlcG9saWE6MHg4NjFBZWE0MGM5QWNDNjI0MzVjRWEzMWIyMDc4RkYzZTAyMkQ2NjI3In0.bj29mlM8RO_Pjsx-q3PjGYhcclN0yOThbpRRpKeUVE0E5qn1V47U8s0KgxrkcE2QQH1iX0HxqG01waliCMhFSg';
+  try {
     isVpJwtValid = await verifyPresentationJWT(vp, didResolver);
-  } catch (error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
   if (isVpJwtValid) {
     const vcJwt = getCredentialsFromVP(vp)[0];
@@ -56,6 +65,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       console.log('\nVerifying VC\n');
       const vcVerified = await verifyDIDs(vcJwt, didResolver);
       console.log(`\nVerification status: ${vcVerified}\n`);
+      if (typeof vcJwt === 'string') {
+        const credential = decodeJWT(vcJwt).payload;
+        name = credential.vc.credentialSubject.name;
+        address = credential.vc.credentialSubject.address;
+        city = credential.vc.credentialSubject.city;
+        state = credential.vc.credentialSubject.state;
+        country = credential.vc.credentialSubject.country;
+        zip = credential.vc.credentialSubject.zip;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -118,11 +136,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }),
     );
   } else {
-    // Prompt for payment before minting
-    // const paymentSuccessful = await makePaymentRequest(accountAddress, '0x861Aea40c9AcC62435cEa31b2078FF3e022D6627', ITEM_PRICE_IN_WEI);
-
-    // if (paymentSuccessful) {
-    // Try to mint and airdrop the NFT after successful payment
     try {
       const { request } = await publicClient.simulateContract({
         account: nftOwnerAccount,
