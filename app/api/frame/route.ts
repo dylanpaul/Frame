@@ -27,8 +27,7 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-import Jimp from "jimp";
-const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`;
+// const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`;
 // const imagePath = '../../../public/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -75,8 +74,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         state = credential.vc.credentialSubject.state;
         country = credential.vc.credentialSubject.country;
         zip = credential.vc.credentialSubject.zip;
-        console.log(name)
-        console.log(zip)
       }
     } catch (error) {
       console.log(error);
@@ -150,7 +147,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
+          src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
         },
       }),
     );
@@ -178,7 +175,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             },
           ],
           image: {
-            src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
+            src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
           },
         }),
       );
@@ -192,7 +189,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
+        src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
       },
     }),
   );
