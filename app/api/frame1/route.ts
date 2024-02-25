@@ -40,7 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
       },
       input: {
-        text: 'Input Address Verifiable Presentation',
+        text: 'Input Address JWT Presentation',
       },
       post_url: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
