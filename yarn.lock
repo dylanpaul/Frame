@@ -1704,6 +1704,13 @@
   "resolved" "https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz"
   "version" "1.0.3"
 
+"bufferutil@^4.0.1", "bufferutil@^4.0.8":
+  "integrity" "sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw=="
+  "resolved" "https://registry.npmjs.org/bufferutil/-/bufferutil-4.0.8.tgz"
+  "version" "4.0.8"
+  dependencies:
+    "node-gyp-build" "^4.3.0"
+
 "busboy@1.6.0":
   "integrity" "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA=="
   "resolved" "https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz"
@@ -3877,7 +3884,7 @@
   dependencies:
     "lodash" "^4.17.21"
 
-"node-gyp-build@^4.2.0":
+"node-gyp-build@^4.2.0", "node-gyp-build@^4.3.0":
   "integrity" "sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og=="
   "resolved" "https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-4.8.0.tgz"
   "version" "4.8.0"
@@ -5087,6 +5094,13 @@
   "version" "4.4.1"
   dependencies:
     "punycode" "^2.1.0"
+
+"utf-8-validate@^5.0.10", "utf-8-validate@^5.0.2", "utf-8-validate@>=5.0.2":
+  "integrity" "sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ=="
+  "resolved" "https://registry.npmjs.org/utf-8-validate/-/utf-8-validate-5.0.10.tgz"
+  "version" "5.0.10"
+  dependencies:
+    "node-gyp-build" "^4.3.0"
 
 "utf8@3.0.0":
   "integrity" "sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ=="
