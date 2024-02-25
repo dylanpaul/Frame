@@ -28,6 +28,8 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
+const sharp = require('sharp');
+const imagePath = '../../../public/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -96,6 +98,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
+  const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
+  const outputPath = '../../../public/textreceipt.jpeg';
+  sharp(imagePath)
+  .resize(800, 600) // Resize the image if needed
+  .overlayWith(Buffer.from(`<svg><text x="10" y="50" font-size="24" font-weight="bold" fill="white">${overlayText}</text></svg>`), { raw: true })
+  .toFile(outputPath, (err: any) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('Image with text overlay saved to', outputPath);
+    }
+  });
+
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,
@@ -127,11 +142,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       getFrameHtmlResponse({
         buttons: [
           {
-            label: 'You already minted, thanks!',
+            label: `Thank you ${name}!`,
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
+          src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
         },
       }),
     );
@@ -155,28 +170,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         getFrameHtmlResponse({
           buttons: [
             {
-              label: 'Thanks for minting!',
+              label: `Thank you! NFT minted as reward!`,
             },
           ],
           image: {
-            src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
+            src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
           },
         }),
       );
     }
   }
-  // }
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Mint NFT!`,
+          label: `Thank you!`,
         },
       ],
       image: {
-        src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
+        src: `${NEXT_PUBLIC_URL}/textreceipt.jpeg`,
       },
-      post_url: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
   );
 }
