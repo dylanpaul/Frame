@@ -29,7 +29,7 @@ const didEthr = new EthrDIDMethod(ethrProvider);
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
-  let text: string | undefined = '';
+  let text: string = '';
 
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
@@ -41,10 +41,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (message?.input) {
     text = message.input;
   }
+  console.log(text)
   const didResolver = getSupportedResolvers([didKey, didEthr]);
 
   const isVpJwtValid = await verifyPresentationJWT(text, didResolver);
-
+  console.log(text)
   if (isVpJwtValid) {
     const vcJwt = getCredentialsFromVP(text)[0];
     try {
