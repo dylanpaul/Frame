@@ -29,6 +29,7 @@ const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
 import Jimp from "jimp";
 const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`;
+// const imagePath = '../../../public/Receipt.jpeg';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -99,10 +100,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const overlayText = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
   const outputPath = `${NEXT_PUBLIC_URL}/textreceipt.jpeg`;
+  const fontPath = 'node_modules/@jimp/plugin-print/index.d.ts';
   async function overlayTextOnImage() {
     try {
       const image = await Jimp.read(imagePath);
-      const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+      const font = await Jimp.loadFont(fontPath);
       image.print(font, 10, 10, overlayText);
       await image.writeAsync(outputPath);
     } catch (error) {
