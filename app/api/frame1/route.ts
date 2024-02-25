@@ -42,7 +42,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       input: {
         text: 'Input Address Verifiable Presentation',
       },
-      post_url: `${NEXT_PUBLIC_URL}/api/frame/route`,
+      post_url: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
   );
 }
