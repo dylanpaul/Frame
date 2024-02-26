@@ -97,7 +97,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   const outputPath = '../../../public/image_with_text.jpeg';
-  const imagePath = '../../../public/Receipt.jpeg'
+  const imagePath = `${NEXT_PUBLIC_URL}/Receipt.jpeg`
 
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
   gm(imagePath)
