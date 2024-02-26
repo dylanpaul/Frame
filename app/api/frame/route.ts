@@ -102,10 +102,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
   gm(imagePath)
   .font('Arial', 12) // Replace 'Arial' with your desired font family
-  .fill('white') // Text color  .drawText(10, 10, text)      // Draw text on the image
+  .fill('black') // Text color  .drawText(10, 10, text)      // Draw text on the image
   .write(outputPath, (err: any) => {
     if (err) {
-      console.log('nope went wrong');
+      console.log(err);
     } else {
       console.log('Text added to image successfully');
     }
