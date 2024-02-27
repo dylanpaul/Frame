@@ -113,6 +113,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Call the async function
   runTextOverlay();
 
+
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
     account: nftOwnerAccount,

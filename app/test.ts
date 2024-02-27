@@ -1,7 +1,14 @@
 const outputPath = 'public/image_with_text.jpeg';
 const imagePath = 'public/Receipt.jpeg';
 
+const path = require('path');
+const fs = require('fs');
 
+console.log('Current working directory:', process.cwd());
+console.log(
+  'Contents of the public directory:',
+  fs.readdirSync(path.join(process.cwd(), 'public')),
+);
 const text1 = `Order Confirmed!\n201 BlahBlah Drive\nTown\nNY\n20201\nThank you Adi!\n\nOrder sent to your email: dhp21312123@gmail.com`;
 const Jimp = require('jimp');
 
@@ -26,11 +33,10 @@ async function textOverlay() {
       alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
     },
     overlayWidth,
-    overlayHeight
-  );  // Writing image after processing
+    overlayHeight,
+  ); // Writing image after processing
   await image.writeAsync(outputPath);
 }
 
 textOverlay();
 console.log('Image is processed succesfully');
-
