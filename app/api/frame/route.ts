@@ -27,7 +27,9 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const gm = require('gm');
+const outputPath = 'public/image_with_text.jpeg';
+const imagePath = 'public/Receipt.jpeg';
+const Jimp = require('jimp');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -96,21 +98,36 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const outputPath = '/public/image_with_text.jpeg';
-  const imagePath = '/public/Receipt.jpeg';
-
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
-  gm(imagePath)
-  .font('Arial', 12) // Replace 'Arial' with your desired font family
-  .fill('black') // Text color
-  .drawText(10, 10, text)      // Draw text on the image
-  .write(outputPath, (err: any) => {
-    if (err) {
-      console.log('err');
-    } else {
-      console.log('Text added to image successfully');
-    }
-  });
+
+  async function textOverlay() {
+    // Reading image
+    const image = await Jimp.read(imagePath);
+    // Defining the text font
+    const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+    const overlayWidth = 800;
+    const overlayHeight = 800;
+
+    const xCoordinate = (image.getWidth() - overlayWidth) / 2;
+    const yCoordinate = (image.getHeight() - overlayHeight) / 2;
+
+    image.print(
+      font,
+      xCoordinate,
+      yCoordinate,
+      {
+        text: text,
+        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+      },
+      overlayWidth,
+      overlayHeight,
+    ); // Writing image after processing
+    await image.writeAsync(outputPath);
+  }
+
+  await textOverlay();
+  console.log('Image is processed succesfully');
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
