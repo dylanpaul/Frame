@@ -27,9 +27,9 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const outputPath = 'public/image_with_text.jpeg';
-const imagePath = 'public/Receipt.jpeg';
-const Jimp = require('jimp');
+// const outputPath = 'public/image_with_text.jpeg';
+// const imagePath = 'public/Receipt.jpeg';
+// const Jimp = require('jimp');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -98,36 +98,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n`;
+  const textOverlay = require('../../test.ts');
 
-  async function textOverlay() {
-    // Reading image
-    const image = await Jimp.read(imagePath);
-    // Defining the text font
-    const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
-    const overlayWidth = 800;
-    const overlayHeight = 800;
-
-    const xCoordinate = (image.getWidth() - overlayWidth) / 2;
-    const yCoordinate = (image.getHeight() - overlayHeight) / 2;
-
-    image.print(
-      font,
-      xCoordinate,
-      yCoordinate,
-      {
-        text: text,
-        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-      },
-      overlayWidth,
-      overlayHeight,
-    ); // Writing image after processing
-    await image.writeAsync(outputPath);
+  async function runTextOverlay() {
+    try {
+      // Run the textOverlay function using await
+      await textOverlay();
+      console.log('textOverlay function executed successfully.');
+    } catch (error) {
+      console.error('Error executing textOverlay function:', error);
+    }
   }
 
-  await textOverlay();
-  console.log('Image is processed succesfully');
+  // Call the async function
+  runTextOverlay();
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
