@@ -108,7 +108,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   async function textOverlay() {
     // Reading image
     const image = await Jimp.read(imagePath);
-    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+    // const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+    const fontPath = 'public/fonts/open-sans-16-black.fnt';
     console.log(fontPath);
     // Defining the text font
     const font = await new Promise((resolve) => {
