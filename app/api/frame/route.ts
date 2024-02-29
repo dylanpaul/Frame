@@ -102,12 +102,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
   const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
-  console.log(imagePath);
-  console.log(outputPath);
-  console.log(
-    'Contents of the public directory:',
-    fs.readdirSync(path.join(process.cwd(), 'public')),
-  );
+
   async function textOverlay() {
     // Reading image
     const image = await Jimp.read(imagePath);
@@ -145,21 +140,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     //   await image.writeAsync(outputPath);
     await image.writeAsync(path.join(outputPath));
   }
+  //using IPFS to store image
+  const IPFS = require('ipfs-http-client');
 
-  const dataUri: string = '';
-  textOverlay();
-  console.log('Image is processed succesfully');
-  try {
-    // Read the image file
-    const imageBuffer = fs.readFileSync(outputPath);
-    console.log('Image successfully read.');
+  async function uploadToIPFS(imagePath: any) {
+    const ipfs = IPFS(); // Connect to the local IPFS node
 
-    // Convert the image to a base64-encoded data URI
-    const dataUri = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
-    console.log('Data URI:', dataUri);
-  } catch (error) {
-    console.error('Error reading image file:', error);
+    try {
+      const result = await ipfs.add(fs.readFileSync(imagePath));
+      const ipfsHash = result.cid.toString();
+      console.log('Image uploaded to IPFS. IPFS Hash:', ipfsHash);
+      return ipfsHash;
+    } catch (error) {
+      console.error('Error uploading image to IPFS:', error);
+      return null;
+    }
   }
+
+  const ipfsHash = await uploadToIPFS(outputPath);
+  const ipfsGateway = 'https://ipfs.io/ipfs/';
+  const ipfsImageUrl = ipfsGateway + ipfsHash;
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
@@ -196,7 +196,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: dataUri,
+          src: ipfsImageUrl,
         },
       }),
     );
