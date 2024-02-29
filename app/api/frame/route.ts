@@ -97,83 +97,80 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
-  const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
-  const firebaseConfig = require('../../../firebase-config');
+  // const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+  // const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
+  // const firebaseConfig = require('../../../firebase-config');
 
-  const admin = require('firebase-admin');
+  // const admin = require('firebase-admin');
 
-  admin.initializeApp({
-    storageBucket: firebaseConfig.storageBucket,
-  });
+  // admin.initializeApp({
+  //   storageBucket: firebaseConfig.storageBucket,
+  // });
 
-  const storage = admin.storage();
-  const bucket = storage.bucket();
+  // const storage = admin.storage();
+  // const bucket = storage.bucket();
 
-  async function textOverlay() {
-    // Reading image
-    try {
-      const image = await Jimp.read(imagePath);
-      const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
-      console.log(fontPath);
-      // Defining the text font
-      const font = await new Promise((resolve) => {
-        Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
-          if (err) {
-            console.error('Error loading font:', err);
-            resolve(null);
-          } else {
-            resolve(loadedFont);
-          }
-        });
-      });
-      const overlayWidth = 800;
-      const overlayHeight = 800;
+  // async function textOverlay() {
+  //   // Reading image
+  //   try {
+  //     const image = await Jimp.read(imagePath);
+  //     const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+  //     console.log(fontPath);
+  //     // Defining the text font
+  //     const font = await new Promise((resolve) => {
+  //       Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
+  //         if (err) {
+  //           console.error('Error loading font:', err);
+  //           resolve(null);
+  //         } else {
+  //           resolve(loadedFont);
+  //         }
+  //       });
+  //     });
+  //     const overlayWidth = 800;
+  //     const overlayHeight = 800;
 
-      const xCoordinate = (image.getWidth() - overlayWidth) / 2;
-      const yCoordinate = (image.getHeight() - overlayHeight) / 2;
+  //     const xCoordinate = (image.getWidth() - overlayWidth) / 2;
+  //     const yCoordinate = (image.getHeight() - overlayHeight) / 2;
 
-      image.print(
-        font,
-        xCoordinate,
-        yCoordinate,
-        {
-          text: text1,
-          alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-          alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-        },
-        overlayWidth,
-        overlayHeight,
-      ); // Writing image after processing
-      // await image.writeAsync(path.join(outputPath));
-      // Upload the processed image to Firebase Storage
-      // Save the processed image to a temporary file
-      const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
-      await image.writeAsync(processedImagePath);
+  //     image.print(
+  //       font,
+  //       xCoordinate,
+  //       yCoordinate,
+  //       {
+  //         text: text1,
+  //         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+  //         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+  //       },
+  //       overlayWidth,
+  //       overlayHeight,
+  //     ); // Writing image after processing
+  //     const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
+  //     await image.writeAsync(processedImagePath);
 
-      // Upload the processed image to Firebase Storage
-      const destination = 'image_with_text.jpeg';
-      await bucket.upload(processedImagePath, {
-        destination,
-        metadata: {
-          contentType: 'image/jpeg',
-        },
-      });
-      const publicLink = await getPublicLink(destination);
-      console.log('Image uploaded to Firebase Storage. Firebase Storage URL:', publicLink);
-      return publicLink;
-    } catch (error) {
-      console.error('Error processing image and uploading to Firebase Storage:', error);
-      return null;
-    }
-  }
+  //     // Upload the processed image to Firebase Storage
+  //     const destination = 'image_with_text.jpeg';
+  //     await bucket.upload(processedImagePath, {
+  //       destination,
+  //       metadata: {
+  //         contentType: 'image/jpeg',
+  //       },
+  //     });
+  //     const publicLink = await getPublicLink(destination);
+  //     console.log('Image uploaded to Firebase Storage. Firebase Storage URL:', publicLink);
+  //     return publicLink;
+  //   } catch (error) {
+  //     console.error('Error processing image and uploading to Firebase Storage:', error);
+  //     return null;
+  //   }
+  // }
 
-  async function getPublicLink(destination: string) {
-    const [result] = await bucket.file(destination).getMetadata();
-    return result.metadata.mediaLink;
-  }
+  // async function getPublicLink(destination: string) {
+  //   const [result] = await bucket.file(destination).getMetadata();
+  //   return result.metadata.mediaLink;
+  // }
 
-  const publicLink = await textOverlay();
+  // const publicLink = await textOverlay();
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
@@ -210,7 +207,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: publicLink,
+          src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
         },
       }),
     );
