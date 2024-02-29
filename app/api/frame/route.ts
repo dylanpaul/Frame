@@ -146,6 +146,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     await image.writeAsync(path.join(outputPath));
   }
 
+  const dataUri: string = '';
   textOverlay();
   console.log('Image is processed succesfully');
   try {
