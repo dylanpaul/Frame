@@ -18,9 +18,29 @@ const Jimp = require('jimp');
 
 async function textOverlay() {
   // Reading image
+  const fontPath = require.resolve(
+    '@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt',
+  );
+
+  // Read the image
   const image = await Jimp.read(imagePath);
-  // Defining the text font
-  const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+
+  // Load font dynamically
+  const font = await new Promise((resolve) => {
+    Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
+      if (err) {
+        console.error('Error loading font:', err);
+        resolve(null);
+      } else {
+        resolve(loadedFont);
+      }
+    });
+  });
+
+  if (!font) {
+    console.error('Font not loaded. Exiting.');
+    return;
+  }
   const overlayWidth = 800;
   const overlayHeight = 800;
 
@@ -40,10 +60,8 @@ async function textOverlay() {
     overlayHeight,
   ); // Writing image after processing
   //   await image.writeAsync(outputPath);
-  await image.writeAsync(
-    path.join(outputPath),
-  );
+  await image.writeAsync(path.join(outputPath));
 }
-console.log('Image is processed succesfully');
 
-export default textOverlay;
+textOverlay();
+console.log('Image is processed succesfully');

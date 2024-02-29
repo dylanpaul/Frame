@@ -98,7 +98,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const textOverlay = require('../../test.ts').default;
+  const textOverlay = require('../../test.ts');
 
   async function runTextOverlay() {
     try {
