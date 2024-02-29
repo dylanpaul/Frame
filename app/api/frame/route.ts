@@ -49,9 +49,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     accountAddress = message.interactor.verified_accounts[0];
   }
 
-  // if (message?.input) {
-  //   vp = message.input;
-  // }
   const didResolver = getSupportedResolvers([didKey, didEthr]);
 
   const vp =
@@ -100,6 +97,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const outputPath = path.join(process.cwd(), 'public', 'image_with_text.jpeg');
   const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+  const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
   console.log(imagePath);
   console.log(outputPath);
   console.log(
