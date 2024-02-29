@@ -44,6 +44,6 @@ async function textOverlay() {
     path.join(outputPath),
   );
 }
-
-textOverlay();
 console.log('Image is processed succesfully');
+
+export default textOverlay;
