@@ -4,7 +4,6 @@ import { NEXT_PUBLIC_URL } from '../../config';
 import NFT from '../../../constants/NFT.json';
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
-// import { MetaMaskInpageProvider } from "@metamask/providers";
 import { createWalletClient, http, createPublicClient } from 'viem';
 import { decodeJWT } from 'did-jwt';
 import {
@@ -16,6 +15,7 @@ import {
   verifyDIDs,
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
@@ -97,80 +97,66 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
-  // const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
-  // const firebaseConfig = require('../../../firebase-config');
+  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+  const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
+  const firebaseConfig = require('../../../firebase-config');
+  const storage = getStorage();
+  const storageRef = ref(storage, 'images/receipt.jpeg');
 
-  // const admin = require('firebase-admin');
+  async function textOverlay() {
+    // Reading image
+    const image = await Jimp.read(imagePath);
+    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+    console.log(fontPath);
+    // Defining the text font
+    const font = await new Promise((resolve) => {
+      Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
+        if (err) {
+          console.error('Error loading font:', err);
+          resolve(null);
+        } else {
+          resolve(loadedFont);
+        }
+      });
+    });
+    const overlayWidth = 800;
+    const overlayHeight = 800;
 
-  // admin.initializeApp({
-  //   storageBucket: firebaseConfig.storageBucket,
-  // });
+    const xCoordinate = (image.getWidth() - overlayWidth) / 2;
+    const yCoordinate = (image.getHeight() - overlayHeight) / 2;
 
-  // const storage = admin.storage();
-  // const bucket = storage.bucket();
+    image.print(
+      font,
+      xCoordinate,
+      yCoordinate,
+      {
+        text: text,
+        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+      },
+      overlayWidth,
+      overlayHeight,
+    ); // Writing image after processing
+    const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
+    await image.writeAsync(processedImagePath);
 
-  // async function textOverlay() {
-  //   // Reading image
-  //   try {
-  //     const image = await Jimp.read(imagePath);
-  //     const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
-  //     console.log(fontPath);
-  //     // Defining the text font
-  //     const font = await new Promise((resolve) => {
-  //       Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
-  //         if (err) {
-  //           console.error('Error loading font:', err);
-  //           resolve(null);
-  //         } else {
-  //           resolve(loadedFont);
-  //         }
-  //       });
-  //     });
-  //     const overlayWidth = 800;
-  //     const overlayHeight = 800;
+    // Upload the processed image to Firebase Storage
+    // const destination = ref(storage, processedImagePath);
 
-  //     const xCoordinate = (image.getWidth() - overlayWidth) / 2;
-  //     const yCoordinate = (image.getHeight() - overlayHeight) / 2;
+    await uploadBytes(storageRef, processedImagePath)
+      .then((snapshot) => {
+        console.log('File uploaded successfully!', snapshot);
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error);
+      });
+  }
 
-  //     image.print(
-  //       font,
-  //       xCoordinate,
-  //       yCoordinate,
-  //       {
-  //         text: text1,
-  //         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-  //         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-  //       },
-  //       overlayWidth,
-  //       overlayHeight,
-  //     ); // Writing image after processing
-  //     const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
-  //     await image.writeAsync(processedImagePath);
+  await textOverlay();
 
-  //     // Upload the processed image to Firebase Storage
-  //     const destination = 'image_with_text.jpeg';
-  //     await bucket.upload(processedImagePath, {
-  //       destination,
-  //       metadata: {
-  //         contentType: 'image/jpeg',
-  //       },
-  //     });
-  //     const publicLink = await getPublicLink(destination);
-  //     console.log('Image uploaded to Firebase Storage. Firebase Storage URL:', publicLink);
-  //     return publicLink;
-  //   } catch (error) {
-  //     console.error('Error processing image and uploading to Firebase Storage:', error);
-  //     return null;
-  //   }
-  // }
-
-  // async function getPublicLink(destination: string) {
-  //   const [result] = await bucket.file(destination).getMetadata();
-  //   return result.metadata.mediaLink;
-  // }
-
-  // const publicLink = await textOverlay();
+  // Get the download URL of the uploaded image
+  const downloadURL = await getDownloadURL(storageRef);
+  console.log('Image uploaded to Firebase Storage. Download URL:', downloadURL);
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
@@ -207,7 +193,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
+          src: downloadURL,
         },
       }),
     );
