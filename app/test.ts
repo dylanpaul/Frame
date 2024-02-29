@@ -1,10 +1,14 @@
-const outputPath = 'public/image_with_text.jpeg';
-const imagePath = 'public/Receipt.jpeg';
-
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
-console.log('Current working directory:', process.cwd());
+// const imagePath = 'public/Receipt.jpeg';
+
+// const { serverRuntimeConfig } = require('next/config')
+const outputPath = path.join(process.cwd(), 'public', 'image_with_text.jpeg');
+const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+
+console.log(imagePath);
+console.log(outputPath);
 console.log(
   'Contents of the public directory:',
   fs.readdirSync(path.join(process.cwd(), 'public')),
@@ -35,7 +39,10 @@ async function textOverlay() {
     overlayWidth,
     overlayHeight,
   ); // Writing image after processing
-  await image.writeAsync(outputPath);
+  //   await image.writeAsync(outputPath);
+  await image.writeAsync(
+    path.join(outputPath),
+  );
 }
 
 textOverlay();
