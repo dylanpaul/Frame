@@ -30,11 +30,9 @@ const didEthr = new EthrDIDMethod(ethrProvider);
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
-const express = require('express');
 // const AWS = require('aws-sdk');
 // const s3 = new AWS.S3();
-const app = express();
-const port = 3000;
+
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -151,11 +149,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   textOverlay();
   console.log('Image is processed succesfully');
-  app.use('/images', express.static(path.dirname(outputPath)));
+  const imageBuffer = fs.readFileSync(outputPath);
+  console.log(imageBuffer)
+  const dataUri = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
 
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
@@ -192,7 +190,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `/images/${path.basename(outputPath)}`,
+          src: dataUri,
         },
       }),
     );
