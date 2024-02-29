@@ -33,7 +33,6 @@ const Jimp = require('jimp');
 // const AWS = require('aws-sdk');
 // const s3 = new AWS.S3();
 
-
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
   //let vp: string = '';
@@ -149,11 +148,17 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   textOverlay();
   console.log('Image is processed succesfully');
-  const imageBuffer = fs.readFileSync(outputPath);
-  console.log(imageBuffer)
-  const dataUri = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
+  try {
+    // Read the image file
+    const imageBuffer = fs.readFileSync(outputPath);
+    console.log('Image successfully read.');
 
-
+    // Convert the image to a base64-encoded data URI
+    const dataUri = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
+    console.log('Data URI:', dataUri);
+  } catch (error) {
+    console.error('Error reading image file:', error);
+  }
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
