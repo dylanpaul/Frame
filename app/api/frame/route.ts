@@ -27,9 +27,9 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-// const outputPath = 'public/image_with_text.jpeg';
-// const imagePath = 'public/Receipt.jpeg';
-// const Jimp = require('jimp');
+const fs = require('fs');
+const path = require('path');
+const Jimp = require('jimp');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -98,21 +98,54 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const textOverlay = require('../../test.ts');
+  const outputPath = path.join(process.cwd(), 'public', 'image_with_text.jpeg');
+  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+  console.log(imagePath);
+  console.log(outputPath);
+  console.log(
+    'Contents of the public directory:',
+    fs.readdirSync(path.join(process.cwd(), 'public')),
+  );
+  async function textOverlay() {
+    // Reading image
+    const image = await Jimp.read(imagePath);
+    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+    console.log(fontPath);
+    // Defining the text font
+    const font = await new Promise((resolve) => {
+      Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
+        if (err) {
+          console.error('Error loading font:', err);
+          resolve(null);
+        } else {
+          resolve(loadedFont);
+        }
+      });
+    });
+    const overlayWidth = 800;
+    const overlayHeight = 800;
 
-  async function runTextOverlay() {
-    try {
-      // Run the textOverlay function using await
-      await textOverlay();
-      console.log('textOverlay function executed successfully.');
-    } catch (error) {
-      console.error('Error executing textOverlay function:', error);
-    }
+    const xCoordinate = (image.getWidth() - overlayWidth) / 2;
+    const yCoordinate = (image.getHeight() - overlayHeight) / 2;
+
+    image.print(
+      font,
+      xCoordinate,
+      yCoordinate,
+      {
+        text: text1,
+        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+      },
+      overlayWidth,
+      overlayHeight,
+    ); // Writing image after processing
+    //   await image.writeAsync(outputPath);
+    await image.writeAsync(path.join(outputPath));
   }
 
-  // Call the async function
-  runTextOverlay();
-
+  textOverlay();
+  console.log('Image is processed succesfully');
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
