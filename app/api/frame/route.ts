@@ -95,7 +95,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const outputPath = path.join(process.cwd(), 'public', 'image_with_text.jpeg');
+  // const outputPath = path.join(process.cwd(), 'public', 'image_with_text.jpeg');
+  const outputPath = path.join('/tmp', 'image_with_text.jpeg');
+
   const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
   const text1 = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
   console.log(imagePath);
