@@ -149,7 +149,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
+          src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
         },
       }),
     );
@@ -177,7 +177,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             },
           ],
           image: {
-            src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
+            src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
           },
         }),
       );
@@ -191,7 +191,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `${NEXT_PUBLIC_URL}/Receipt.jpeg`,
+        src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
       },
     }),
   );

@@ -13,19 +13,15 @@ console.log(
   'Contents of the public directory:',
   fs.readdirSync(path.join(process.cwd(), 'public')),
 );
-const text1 = `Order Confirmed!\n201 BlahBlah Drive\nTown\nNY\n20201\nThank you Adi!\n\nOrder sent to your email: dhp21312123@gmail.com`;
+const text1 = `Order Confirmed!\n201 BlahBlah Drive\nTown\nNY\n20201\nThank you Paul!\n\nOrder sent to your email: dhp21312123@gmail.com`;
 const Jimp = require('jimp');
 
 async function textOverlay() {
   // Reading image
-  const fontPath = require.resolve(
-    '@jimp/plugin-print/fonts/open-sans/open-sans-16-black/open-sans-16-black.fnt',
-  );
-
-  // Read the image
   const image = await Jimp.read(imagePath);
-
-  // Load font dynamically
+  const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
+  console.log(fontPath);
+  // Defining the text font
   const font = await new Promise((resolve) => {
     Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
       if (err) {
@@ -36,11 +32,6 @@ async function textOverlay() {
       }
     });
   });
-
-  if (!font) {
-    console.error('Font not loaded. Exiting.');
-    return;
-  }
   const overlayWidth = 800;
   const overlayHeight = 800;
 
