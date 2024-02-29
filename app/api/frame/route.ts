@@ -16,7 +16,7 @@ import {
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { app } from '../../../firebase-config';
+import { initializeApp } from 'firebase/app';
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
@@ -100,6 +100,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
+  const firebaseConfig = require('../../../firebase-config');
+  const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
   const storageRef = ref(storage, 'images/receipt.jpeg');
 
