@@ -182,7 +182,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
+          src: `/tmp/image_with_text.jpeg`,
         },
       }),
     );
