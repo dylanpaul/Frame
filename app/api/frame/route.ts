@@ -96,13 +96,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
-  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
+  const processedImagePath = path.join('/tmp', 'image_with_text.jpg');
+  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpg');
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
   const firebaseConfig = require('../../../firebase-config');
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
-  const storageRef = ref(storage, 'images/receipt.jpeg');
+  const storageRef = ref(storage, 'images/receipt.jpg');
 
   async function textOverlay() {
     // Create a canvas
