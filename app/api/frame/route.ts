@@ -102,7 +102,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const firebaseConfig = require('../../../firebase-config');
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
-  const storageRef = ref(storage, 'images/receipt.jpg');
+  const storageRef = ref(storage, 'images/receipt.jpeg');
 
   async function textOverlay() {
     // Create a canvas
@@ -118,7 +118,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     // Set font properties
-    ctx.font = '20px Brush Script MT';
+    ctx.font = '20px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
