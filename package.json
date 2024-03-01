@@ -18,7 +18,7 @@
     "@jpmorganchase/onyx-ssi-sdk": "^0.0.1",
     "@metamask/providers": "^14.0.2",
     "bufferutil": "^4.0.8",
-    "canvas": "2.6.1",
+    "canvas": "^2.11.2",
     "dotenv": "^16.4.4",
     "express": "^4.18.2",
     "firebase": "^10.8.1",
