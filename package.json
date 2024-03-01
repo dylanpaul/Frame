@@ -7,7 +7,8 @@
     "format": "prettier --log-level warn --write .",
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "image": "ts-node ./app/test.ts"
+    "image:jimp": "ts-node ./app/tests/jimp.ts",
+    "image:canvas": "ts-node ./app/tests/canvas.ts"
   },
   "keywords": [],
   "author": "https://twitter.com/Zizzamia",

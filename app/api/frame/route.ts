@@ -30,9 +30,7 @@ const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
 const fs = require('fs');
 const path = require('path');
-const Jimp = require('jimp');
-// const AWS = require('aws-sdk');
-// const s3 = new AWS.S3();
+const { createCanvas, loadImage } = require('canvas');
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -98,6 +96,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
+  const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
   const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpeg');
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
   const firebaseConfig = require('../../../firebase-config');
@@ -106,43 +105,37 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const storageRef = ref(storage, 'images/receipt.jpeg');
 
   async function textOverlay() {
-    // Reading image
-    const image = await Jimp.read(imagePath);
-    // const fontPath = path.join(process.cwd(), 'public', 'fonts', 'open-sans-16-black.fnt');
-    const fontPath = path.resolve('public/fonts/open-sans-16-black.fnt');
+    // Create a canvas
+    const canvas = createCanvas();
+    const ctx = canvas.getContext('2d');
 
-    console.log(fontPath);
-    // Defining the text font
-    const font = await new Promise((resolve) => {
-      Jimp.loadFont(fontPath, (err: any, loadedFont: unknown) => {
-        if (err) {
-          console.error('Error loading font:', err);
-          resolve(null);
-        } else {
-          resolve(loadedFont);
-        }
-      });
+    // Load the image
+    const image = await loadImage(imagePath);
+    canvas.width = image.width;
+    canvas.height = image.height;
+
+    // Draw the image on the canvas
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    // Set font properties
+    ctx.font = '20px Brush Script MT';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Add text to the center of the canvas
+    const lines = text.split('\n');
+    const lineHeight = 30;
+    const startY = canvas.height / 2 - (lines.length * lineHeight) / 2;
+    lines.forEach((line, index) => {
+      ctx.fillText(line, canvas.width / 2, startY + index * lineHeight);
     });
-    const overlayWidth = 800;
-    const overlayHeight = 800;
 
-    const xCoordinate = (image.getWidth() - overlayWidth) / 2;
-    const yCoordinate = (image.getHeight() - overlayHeight) / 2;
-
-    image.print(
-      font,
-      xCoordinate,
-      yCoordinate,
-      {
-        text: text,
-        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-      },
-      overlayWidth,
-      overlayHeight,
-    ); // Writing image after processing
-    const processedImagePath = path.join('/tmp', 'image_with_text.jpeg');
-    await image.writeAsync(processedImagePath);
+    // Save the canvas to an image file
+    const out = fs.createWriteStream(processedImagePath);
+    const stream = canvas.createJPEGStream();
+    stream.pipe(out);
+    out.on('finish', () => console.log('Image with text saved.'));
 
     // Upload the processed image to Firebase Storage
     // const destination = ref(storage, processedImagePath);
