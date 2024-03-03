@@ -118,7 +118,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     // Set font properties
-    ctx.font = '20px Verdana';
+    ctx.font = '20px Roboto';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
