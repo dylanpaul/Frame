@@ -17,6 +17,8 @@ import {
 } from '@jpmorganchase/onyx-ssi-sdk';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { initializeApp } from 'firebase/app';
+import { Inter } from 'next/font/google';
+
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 const PROVIDER_URL = process.env.PROVIDER_URL;
@@ -31,6 +33,7 @@ const didEthr = new EthrDIDMethod(ethrProvider);
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
+const inter = Inter({ subsets: ['latin'] });
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -118,7 +121,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     // Set font properties //inter
-    // ctx.font = '20px Inter';
+    ctx.font = `20px ${inter.className}`;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -182,6 +185,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (minted) {
+    console.log('Minted trying to open');
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
@@ -195,6 +199,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }),
     );
   } else {
+    console.log('In else statement');
     try {
       const { request } = await publicClient.simulateContract({
         account: nftOwnerAccount,
@@ -224,6 +229,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       );
     }
   }
+  console.log('Skipping if jungle');
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [

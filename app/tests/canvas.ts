@@ -1,3 +1,8 @@
+// Import the Inter module from 'next/font/google'
+const { Inter } = require('next/font/google');
+
+// If loading a variable font, you don't need to specify the font weight
+// var inter = InterModule({ subsets: ['latin'] });
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
@@ -25,6 +30,7 @@ async function textOverlay() {
 
   // Set font properties
   // ctx.font = '20px Inter';
+  ctx.font = `20px Inter`;
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
