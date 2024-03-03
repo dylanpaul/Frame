@@ -24,7 +24,7 @@ async function textOverlay() {
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
   // Set font properties
-  ctx.font = '20px Brush Script MT';
+  ctx.font = '20px Comic Sans';
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
