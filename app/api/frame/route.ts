@@ -117,8 +117,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // Draw the image on the canvas
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // Set font properties
-    ctx.font = '20px Roboto';
+    // Set font properties //inter
+    ctx.font = '20px Inter';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
