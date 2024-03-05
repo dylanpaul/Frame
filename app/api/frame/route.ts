@@ -199,7 +199,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/og?${searchParams}`,
+          src: `${NEXT_PUBLIC_URL}/api/og?${searchParams}`,
         },
       }),
     );
