@@ -99,64 +99,69 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const processedImagePath = path.join('/tmp', 'image_with_text.jpg');
-  const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpg');
+  // const processedImagePath = path.join('/tmp', 'image_with_text.jpg');
+  // const imagePath = path.join(process.cwd(), 'public', 'Receipt.jpg');
   const text = `Order Confirmed!\n${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dhp21312123@gmail.com`;
-  const firebaseConfig = require('../../../firebase-config');
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-  const storageRef = ref(storage, 'images/receipt.jpeg');
+  // const firebaseConfig = require('../../../firebase-config');
+  // const app = initializeApp(firebaseConfig);
+  // const storage = getStorage(app);
+  // const storageRef = ref(storage, 'images/receipt.jpeg');
 
-  async function textOverlay() {
-    // Create a canvas
-    const canvas = createCanvas();
-    const ctx = canvas.getContext('2d');
+  // async function textOverlay() {
+  //   // Create a canvas
+  //   const canvas = createCanvas();
+  //   const ctx = canvas.getContext('2d');
 
-    // Load the image
-    const image = await loadImage(imagePath);
-    canvas.width = image.width;
-    canvas.height = image.height;
+  //   // Load the image
+  //   const image = await loadImage(imagePath);
+  //   canvas.width = image.width;
+  //   canvas.height = image.height;
 
-    // Draw the image on the canvas
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+  //   // Draw the image on the canvas
+  //   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // Set font properties //inter
-    ctx.font = `20px ${inter.className}`;
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+  //   // Set font properties //inter
+  //   ctx.font = `20px ${inter.className}`;
+  //   ctx.fillStyle = 'black';
+  //   ctx.textAlign = 'center';
+  //   ctx.textBaseline = 'middle';
 
-    // Add text to the center of the canvas
-    const lines = text.split('\n');
-    const lineHeight = 30;
-    const startY = canvas.height / 2 - (lines.length * lineHeight) / 2;
-    lines.forEach((line, index) => {
-      ctx.fillText(line, canvas.width / 2, startY + index * lineHeight);
-    });
+  //   // Add text to the center of the canvas
+  //   const lines = text.split('\n');
+  //   const lineHeight = 30;
+  //   const startY = canvas.height / 2 - (lines.length * lineHeight) / 2;
+  //   lines.forEach((line, index) => {
+  //     ctx.fillText(line, canvas.width / 2, startY + index * lineHeight);
+  //   });
 
-    // Save the canvas to an image file
-    const out = fs.createWriteStream(processedImagePath);
-    const stream = canvas.createJPEGStream();
-    stream.pipe(out);
-    out.on('finish', () => console.log('Image with text saved.'));
+  //   // Save the canvas to an image file
+  //   const out = fs.createWriteStream(processedImagePath);
+  //   const stream = canvas.createJPEGStream();
+  //   stream.pipe(out);
+  //   out.on('finish', () => console.log('Image with text saved.'));
 
-    // Upload the processed image to Firebase Storage
-    // const destination = ref(storage, processedImagePath);
+  //   // Upload the processed image to Firebase Storage
+  //   // const destination = ref(storage, processedImagePath);
 
-    await uploadBytes(storageRef, processedImagePath)
-      .then((snapshot) => {
-        console.log('File uploaded successfully!', snapshot);
-      })
-      .catch((error) => {
-        console.error('Error uploading file:', error);
-      });
-  }
+  //   await uploadBytes(storageRef, processedImagePath)
+  //     .then((snapshot) => {
+  //       console.log('File uploaded successfully!', snapshot);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error uploading file:', error);
+  //     });
+  // }
 
-  await textOverlay();
+  // await textOverlay();
 
-  // Get the download URL of the uploaded image
-  const downloadURL = await getDownloadURL(storageRef);
-  console.log('Image uploaded to Firebase Storage. Download URL:', downloadURL);
+  // // Get the download URL of the uploaded image
+  // const downloadURL = await getDownloadURL(storageRef);
+  // console.log('Image uploaded to Firebase Storage. Download URL:', downloadURL);
+
+  const searchParams = new URLSearchParams({
+    title: 'Order Confirmation',
+    description: text,
+  });
 
   const nftOwnerAccount = privateKeyToAccount(WALLET_PRIVATE_KEY as `0x${string}`);
   const nftOwnerClient = createWalletClient({
@@ -194,7 +199,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: {
-          src: downloadURL,
+          src: `${NEXT_PUBLIC_URL}/og?${searchParams}`,
         },
       }),
     );
