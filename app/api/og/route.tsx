@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     // ?description=
     const hasDescription = searchParams.has('description');
     const description = hasDescription ? searchParams.get('description') : '';
+    console.log(description);
 
     // Split the description by new line characters
     const descriptionLines = description?.split('\n') || [];
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
             justifyContent: 'center',
             flexDirection: 'column',
             backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-            fontSize: 20,
+            fontSize: '12px',
             fontWeight: 700,
             textAlign: 'center',
           }}
@@ -39,7 +40,7 @@ export async function GET(request: Request) {
               backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
               // backgroundClip: 'text',
               color: 'transparent',
-              fontSize: 30,
+              fontSize: '12px',
               fontWeight: 700,
               margin: 0,
             }}
@@ -53,7 +54,7 @@ export async function GET(request: Request) {
                 backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
                 // backgroundClip: 'text',
                 color: 'transparent',
-                fontSize: 10,
+                fontSize: '12px',
                 fontWeight: 700,
                 margin: 0,
                 marginTop: 20,
