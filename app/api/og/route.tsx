@@ -29,7 +29,7 @@ export async function GET(request: Request) {
             justifyContent: 'center',
             flexDirection: 'column',
             backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-            // fontSize: 80,
+            fontSize: 20,
             fontWeight: 700,
             textAlign: 'center',
           }}
