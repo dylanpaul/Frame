@@ -1,4 +1,5 @@
 import { ImageResponse } from '@vercel/og';
+import React from 'react';
 
 export const runtime = 'edge';
 
@@ -46,20 +47,23 @@ export async function GET(request: Request) {
             {title}
           </p>
           {descriptionLines.map((line, index) => (
-            <p
-              key={index}
-              style={{
-                backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
-                backgroundClip: 'text',
-                color: 'transparent',
-                fontSize: 25,
-                fontWeight: 700,
-                margin: 0,
-                marginTop: 20,
-              }}
-            >
-              {line}
-            </p>
+            <React.Fragment key={index}>
+              <p
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  margin: 0,
+                  marginTop: 20,
+                }}
+              >
+                {line}
+              </p>
+              {index < descriptionLines.length - 1 && <br />}{' '}
+              {/* Add <br /> except for the last line */}
+            </React.Fragment>
           ))}
         </div>
       ),
