@@ -29,7 +29,7 @@ export async function GET(request: Request) {
             justifyContent: 'center',
             flexDirection: 'column',
             backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-            fontSize: 80,
+            // fontSize: 80,
             fontWeight: 700,
             textAlign: 'center',
           }}
@@ -39,7 +39,7 @@ export async function GET(request: Request) {
               backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
               // backgroundClip: 'text',
               color: 'transparent',
-              fontSize: 80,
+              fontSize: 30,
               fontWeight: 700,
               margin: 0,
             }}
@@ -59,7 +59,9 @@ export async function GET(request: Request) {
                 marginTop: 20,
               }}
             >
+              <br />
               {line}
+              <br />
             </p>
           ))}
         </div>
