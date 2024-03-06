@@ -31,38 +31,38 @@ export async function GET(request: Request) {
             flexDirection: 'column',
             backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
             fontSize: '12px',
-            fontWeight: 700,
+            // fontWeight: 700,
             textAlign: 'center',
           }}
         >
           <p
             style={{
               backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
-              // backgroundClip: 'text',
+              backgroundClip: 'text',
               color: 'transparent',
               fontSize: '12px',
-              fontWeight: 700,
+              // fontWeight: 700,
               margin: 0,
             }}
           >
             {title}
           </p>
+          <br></br>
           {descriptionLines.map((line, index) => (
             <p
               key={index}
               style={{
                 backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
-                // backgroundClip: 'text',
+                backgroundClip: 'text',
                 color: 'transparent',
                 fontSize: '12px',
                 fontWeight: 700,
                 margin: 0,
                 marginTop: 20,
+                whiteSpace: 'pre-line',
               }}
             >
-              <br />
               {line}
-              <br />
             </p>
           ))}
         </div>

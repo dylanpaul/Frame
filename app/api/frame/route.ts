@@ -15,8 +15,6 @@ import {
   verifyDIDs,
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { initializeApp } from 'firebase/app';
 import { Inter } from 'next/font/google';
 
 require('dotenv').config();
