@@ -31,14 +31,14 @@ export async function GET(request: Request) {
               justifyContent: 'center',
               flexDirection: 'column',
               backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-              fontSize: '16px',
+              fontSize: '32px',
               textAlign: 'center',
             }}
           >
             <p
               style={{
                 color: 'black',
-                fontSize: '16px',
+                fontSize: '32px',
                 margin: 0,
               }}
             >
@@ -50,12 +50,13 @@ export async function GET(request: Request) {
                 key={index}
                 style={{
                   color: 'black',
-                  fontSize: '16px',
+                  fontSize: '32px',
                   margin: 0,
-                  marginTop: 5,
+                  // marginTop: 5,
                 }}
               >
                 {line}
+                <br></br>
               </p>
             ))}
           </div>
