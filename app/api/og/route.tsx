@@ -21,51 +21,55 @@ export async function GET(request: Request) {
 
     return new ImageResponse(
       (
-        <div
-          style={{
-            display: 'flex',
-            height: '100%',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-            fontSize: '12px',
-            // fontWeight: 700,
-            textAlign: 'center',
-          }}
-        >
-          <p
+        <>
+          <div
             style={{
-              backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
-              backgroundClip: 'text',
-              color: 'transparent',
-              fontSize: '12px',
+              // display: 'flex',
+              height: '100%',
+              width: '100%',
+              // alignItems: 'center',
+              // justifyContent: 'center',
+              // flexDirection: 'column',
+              // backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+              fontSize: 12,
               // fontWeight: 700,
-              margin: 0,
+              textAlign: 'center',
             }}
           >
-            {title}
-          </p>
-          <br></br>
-          {descriptionLines.map((line, index) => (
             <p
-              key={index}
               style={{
-                backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
+                backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
                 backgroundClip: 'text',
                 color: 'transparent',
-                fontSize: '12px',
-                fontWeight: 700,
+                fontSize: 12,
+                // fontWeight: 700,
                 margin: 0,
-                marginTop: 20,
-                whiteSpace: 'pre-line',
               }}
             >
-              {line}
+              {title}
             </p>
-          ))}
-        </div>
+          </div>
+          <div>
+            <br></br>
+            {descriptionLines.map((line, index) => (
+              <p
+                key={index}
+                style={{
+                  // backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
+                  backgroundClip: 'text',
+                  color: 'black',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  margin: 0,
+                  marginTop: 20,
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+        </>
       ),
       {
         width: 1200,
