@@ -24,45 +24,35 @@ export async function GET(request: Request) {
         <>
           <div
             style={{
-              // display: 'flex',
+              display: 'flex',
               height: '100%',
               width: '100%',
               // alignItems: 'center',
-              // justifyContent: 'center',
-              // flexDirection: 'column',
-              // backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-              fontSize: 12,
-              // fontWeight: 700,
+              justifyContent: 'center',
+              flexDirection: 'column',
+              backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+              fontSize: '12px',
               textAlign: 'center',
             }}
           >
             <p
               style={{
-                backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
-                backgroundClip: 'text',
-                color: 'transparent',
-                fontSize: 12,
-                // fontWeight: 700,
+                color: 'black',
+                fontSize: '12px',
                 margin: 0,
               }}
             >
-              {title}
+              {'Hi!'}
             </p>
-          </div>
-          <div>
             <br></br>
-            {descriptionLines.map((line, index) => (
+            {[descriptionLines].map((line, index) => (
               <p
                 key={index}
                 style={{
-                  // backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
-                  backgroundClip: 'text',
                   color: 'black',
-                  fontSize: 12,
-                  fontWeight: 700,
+                  fontSize: '12px',
                   margin: 0,
-                  marginTop: 20,
-                  whiteSpace: 'pre-line',
+                  marginTop: 5,
                 }}
               >
                 {line}
@@ -72,8 +62,8 @@ export async function GET(request: Request) {
         </>
       ),
       {
-        width: 1200,
-        height: 630,
+        width: 1000,
+        height: 500,
       },
     );
   } catch (e: any) {
