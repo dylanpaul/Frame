@@ -27,22 +27,22 @@ export async function GET(request: Request) {
               display: 'flex',
               height: '100%',
               width: '100%',
-              // alignItems: 'center',
+              alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
               backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-              fontSize: '12px',
+              fontSize: '16px',
               textAlign: 'center',
             }}
           >
             <p
               style={{
                 color: 'black',
-                fontSize: '12px',
+                fontSize: '16px',
                 margin: 0,
               }}
             >
-              {'Hi!'}
+              {title}
             </p>
             <br></br>
             {[descriptionLines].map((line, index) => (
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
                 key={index}
                 style={{
                   color: 'black',
-                  fontSize: '12px',
+                  fontSize: '16px',
                   margin: 0,
                   marginTop: 5,
                 }}
@@ -62,8 +62,8 @@ export async function GET(request: Request) {
         </>
       ),
       {
-        width: 1000,
-        height: 500,
+        width: 1200,
+        height: 630,
       },
     );
   } catch (e: any) {
