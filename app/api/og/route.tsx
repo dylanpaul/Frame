@@ -27,7 +27,7 @@ export async function GET(request: Request) {
               display: 'flex',
               height: '100%',
               width: '100%',
-              paddingTop: '40px',
+              paddingTop: '100px',
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
