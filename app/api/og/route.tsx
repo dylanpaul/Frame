@@ -1,6 +1,6 @@
 import { ImageResponse } from '@vercel/og';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function GET(request: Request) {
   try {
@@ -45,7 +45,15 @@ export async function GET(request: Request) {
               {title}
             </p>
             <br></br>
-            {[descriptionLines].map((line, index) => (
+            {[
+              '1234 Mockingbird Lane',
+              'Anytown',
+              'Anystate',
+              '01234',
+              'Thank you Dylan Paul!',
+              '',
+              'Order sent to your email: dhp21312123@gmail.com',
+            ].map((line, index) => (
               <p
                 key={index}
                 style={{
