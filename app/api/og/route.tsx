@@ -27,6 +27,7 @@ export async function GET(request: Request) {
               display: 'flex',
               height: '100%',
               width: '100%',
+              paddingTop: '40px',
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
@@ -41,7 +42,7 @@ export async function GET(request: Request) {
                 fontSize: '64px',
                 fontWeight: 500,
                 margin: 0,
-                marginBottom: 10,
+                marginBottom: 20,
               }}
             >
               {title}
