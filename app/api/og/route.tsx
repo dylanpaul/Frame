@@ -30,35 +30,29 @@ export async function GET(request: Request) {
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
+              border: '5px solid black',
               backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-              fontSize: '64px',
+              fontSize: '48px',
               textAlign: 'center',
             }}
           >
             <p
               style={{
                 color: 'black',
-                fontSize: '64px',
+                fontSize: '48px',
+                fontWeight: 500,
                 margin: 0,
               }}
             >
               {title}
             </p>
             <br></br>
-            {[
-              '1234 Mockingbird Lane',
-              'Anytown',
-              'Anystate',
-              '01234',
-              'Thank you Dylan Paul!',
-              '',
-              'Order sent to your email: dhp21312123@gmail.com',
-            ].map((line, index) => (
+            {[descriptionLines].map((line, index) => (
               <p
                 key={index}
                 style={{
                   color: 'black',
-                  fontSize: '64px',
+                  fontSize: '32px',
                   margin: 0,
                   marginTop: 5,
                 }}
