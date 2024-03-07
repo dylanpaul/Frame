@@ -46,7 +46,7 @@ export async function GET(request: Request) {
               {title}
             </p>
             <br></br>
-            {[descriptionLines].map((line, index) => (
+            {descriptionLines.map((line, index) => (
               <p
                 key={index}
                 style={{
