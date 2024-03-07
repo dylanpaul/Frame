@@ -98,7 +98,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const text = `${address}\n${city}\n${state}\n${zip}\nThank you ${name}!\n\nOrder sent to your email: dp213@gmail.com`;
+  const text = `${address}\n${city}\n${state}\n${zip}\n\nOrder sent to your email: dp213@gmail.com`;
 
   const searchParams = new URLSearchParams({
     title: 'Order Confirmation',

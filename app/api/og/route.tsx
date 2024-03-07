@@ -31,16 +31,17 @@ export async function GET(request: Request) {
               justifyContent: 'center',
               flexDirection: 'column',
               backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-              fontSize: '48px',
+              fontSize: '64px',
               textAlign: 'center',
             }}
           >
             <p
               style={{
                 color: 'black',
-                fontSize: '48px',
+                fontSize: '64px',
                 fontWeight: 500,
                 margin: 0,
+                marginBottom: 10,
               }}
             >
               {title}
