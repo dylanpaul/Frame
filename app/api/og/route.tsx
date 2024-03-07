@@ -30,7 +30,6 @@ export async function GET(request: Request) {
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
-              border: '5px solid black',
               backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
               fontSize: '48px',
               textAlign: 'center',
@@ -52,7 +51,7 @@ export async function GET(request: Request) {
                 key={index}
                 style={{
                   color: 'black',
-                  fontSize: '32px',
+                  fontSize: '48px',
                   margin: 0,
                   marginTop: 5,
                 }}
