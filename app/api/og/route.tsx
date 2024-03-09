@@ -25,8 +25,8 @@ export async function GET(request: Request) {
           <div
             style={{
               display: 'flex',
-              height: '100%',
-              width: '100%',
+              height: '100vh',
+              width: '100vw',
               paddingTop: '100px',
               alignItems: 'center',
               justifyContent: 'center',
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
               style={{
                 color: 'black',
                 fontSize: '64px',
-                fontWeight: 500,
+                fontWeight: 700,
                 margin: 0,
                 marginBottom: 20,
               }}
