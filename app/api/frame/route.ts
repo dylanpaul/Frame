@@ -15,7 +15,6 @@ import {
   verifyDIDs,
   verifyPresentationJWT,
 } from '@jpmorganchase/onyx-ssi-sdk';
-import { Inter } from 'next/font/google';
 
 require('dotenv').config();
 const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
@@ -28,10 +27,6 @@ const ethrProvider = {
 };
 const didKey = new KeyDIDMethod();
 const didEthr = new EthrDIDMethod(ethrProvider);
-const fs = require('fs');
-const path = require('path');
-const { createCanvas, loadImage } = require('canvas');
-const inter = Inter({ subsets: ['latin'] });
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -84,16 +79,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       getFrameHtmlResponse({
         buttons: [
           {
-            label: `Invalid JWT: Confirm Order!`,
+            label: `Black`,
+          },
+          {
+            label: 'Orange',
+          },
+          {
+            label: 'Green',
+          },
+          {
+            label: 'Blue',
           },
         ],
         image: {
-          src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
+          src: `${NEXT_PUBLIC_URL}/HatsInvalid.jpeg`,
         },
-        input: {
-          text: 'Input Address JWT Presentation',
-        },
-        post_url: `${NEXT_PUBLIC_URL}/api/frame`,
+        postUrl: `${NEXT_PUBLIC_URL}/api/frame1`,
       }),
     );
   }

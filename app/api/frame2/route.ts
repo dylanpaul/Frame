@@ -22,53 +22,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     text = message.input;
   }
 
-  if (message?.button === 2) {
-    return new NextResponse(
-        getFrameHtmlResponse({
-          buttons: [
-            {
-              label: `Confirm Order!`,
-            },
-          ],
-          image: {
-            src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
-          },
-          input: {
-            text: 'Input Address JWT Presentation',
-          },
-          post_url: `${NEXT_PUBLIC_URL}/api/frame`,
-        }),
-      );
-  }
-
-  if (message?.button === 3) {
-    return NextResponse.redirect(
-        `${NEXT_PUBLIC_URL}/api/frame1`,
-      { status: 302 },
-    );
-  }
-
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Red`,
+          label: `Black`,
         },
         {
-          label: 'Black',
+          label: 'Orange',
         },
         {
-          action: 'post_redirect',
-          label: 'Yellow',
+          label: 'Green',
         },
         {
           label: 'Blue',
         },
       ],
       image: {
-        src: `${NEXT_PUBLIC_URL}/Storefront.jpeg`,
+        src: `${NEXT_PUBLIC_URL}/Hats.jpeg`,
       },
-      postUrl: `${NEXT_PUBLIC_URL}/api/frame2`,
+      postUrl: `${NEXT_PUBLIC_URL}/api/frame1`,
     }),
   );
 }
