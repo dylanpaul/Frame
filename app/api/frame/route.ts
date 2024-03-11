@@ -8,7 +8,6 @@ import { createWalletClient, http, createPublicClient } from 'viem';
 import { decodeJWT } from 'did-jwt';
 import {
   EthrDIDMethod,
-  JWTService,
   KeyDIDMethod,
   getCredentialsFromVP,
   getSupportedResolvers,
