@@ -22,7 +22,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     text = message.input;
   }
 
-  if (message?.button === 1) {
+  if (message?.button === 2) {
     return new NextResponse(
         getFrameHtmlResponse({
           buttons: [
