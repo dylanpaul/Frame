@@ -144,7 +144,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             },
           ],
           image: {
-            src: `${NEXT_PUBLIC_URL}/BlackDiscount.jpeg`,
+            src: `${NEXT_PUBLIC_URL}/BlackDiscount1.jpeg`,
           },
           input: {
             text: 'Input Address JWT Presentation',
