@@ -55,9 +55,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           label: `Red`,
         },
         {
-          action: 'link',
           label: 'Black',
-          target: '{NEXT_PUBLIC_URL}/api/frame2',
         },
         {
           action: 'post_redirect',
