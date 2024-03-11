@@ -5,11 +5,11 @@ import { NEXT_PUBLIC_URL } from './config';
 const frameMetadata = getFrameMetadata({
   buttons: [
     {
-      label: 'Buy Product!',
+      label: 'Buy with Onyx!',
     },
   ],
   image: {
-    src: `${NEXT_PUBLIC_URL}/GoldStar.jpeg`,
+    src: `${NEXT_PUBLIC_URL}/Storefront.jpeg`,
     aspectRatio: '1:1',
   },
   postUrl: `${NEXT_PUBLIC_URL}/api/frame1`,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Loyalty',
     description: 'Rewards',
-    images: [`${NEXT_PUBLIC_URL}/GoldStar.jpeg`],
+    images: [`${NEXT_PUBLIC_URL}/Storefront.jpeg`],
   },
   other: {
     ...frameMetadata,

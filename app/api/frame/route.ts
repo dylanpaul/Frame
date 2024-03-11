@@ -132,7 +132,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   if (minted) {
-    console.log('Minted trying to open');
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
@@ -146,7 +145,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }),
     );
   } else {
-    console.log('In else statement');
     try {
       const { request } = await publicClient.simulateContract({
         account: nftOwnerAccount,
@@ -170,22 +168,21 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             },
           ],
           image: {
-            src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
+            src: `${NEXT_PUBLIC_URL}/api/og?${searchParams}`,
           },
         }),
       );
     }
   }
-  console.log('Skipping if jungle');
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Thank you!`,
+          label: `Thank you ${name}!`,
         },
       ],
       image: {
-        src: `${NEXT_PUBLIC_URL}/image_with_text.jpeg`,
+        src: `${NEXT_PUBLIC_URL}/api/og?${searchParams}`,
       },
     }),
   );
